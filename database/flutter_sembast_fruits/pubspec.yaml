@@ -1,0 +1,19 @@
+name: flutter_sembast_fruits
+description: Example application using the Sembast DB libary
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  path_provider: ^1.6.18
+  sembast: ^2.4.7+7
+
+flutter:
+        uses-material-design: true
