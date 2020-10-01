@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_hive_contacts/contact_list/contact_form_dialog.dart';
 import 'package:flutter_hive_contacts/contact_list/contact_list_bloc.dart';
 import 'package:flutter_hive_contacts/data/contact.dart';
 
@@ -9,11 +10,7 @@ class ContactListPage extends StatefulWidget {
 }
 
 class _ContactListPageState extends State<ContactListPage> {
-  final _formKey = GlobalKey<FormState>();
-
   ContactListBloc _bloc;
-  String _name;
-  String _age;
 
   @override
   void initState() {
@@ -38,6 +35,7 @@ class _ContactListPageState extends State<ContactListPage> {
                 itemBuilder: (context, index) {
                   final contact = snapshot.data[index];
                   return ListTile(
+                    onTap: () => _showContactEditionDialog(contact, index),
                     subtitle: Text('Age: ${contact.age}'),
                     title: Text('Name: ${contact.name}'),
                     trailing: IconButton(
@@ -62,49 +60,34 @@ class _ContactListPageState extends State<ContactListPage> {
     );
   }
 
+  _showContactEditionDialog(Contact contact, int index) {
+    showDialog(
+      context: context,
+      child: ContactFormDialog(
+        age: contact.age,
+        callback: (name, age) {
+          final newContact = Contact(
+            age: int.parse(age),
+            name: name,
+          );
+          _bloc.editContact(newContact, index);
+        },
+        name: contact.name,
+      ),
+    );
+  }
+
   void _showContactCreationDialog() {
     showDialog(
       context: context,
-      child: AlertDialog(
-        actions: [
-          MaterialButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('Cancel'),
-          ),
-          MaterialButton(
-            onPressed: () {
-              _formKey.currentState.save();
-              final contact = Contact(
-                age: int.parse(_age),
-                name: _name,
-              );
-              _bloc.addContact(contact);
-              Navigator.pop(context);
-            },
-            child: Text('Add Contact'),
-          ),
-        ],
-        content: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Name'),
-                onSaved: (value) => _name = value,
-              ),
-              SizedBox(
-                height: 16.0,
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Age'),
-                keyboardType: TextInputType.number,
-                onSaved: (value) => _age = value,
-              ),
-            ],
-          ),
-        ),
-        title: Text('Add new contact'),
+      child: ContactFormDialog(
+        callback: (name, age) {
+          final contact = Contact(
+            age: int.parse(age),
+            name: name,
+          );
+          _bloc.addContact(contact);
+        },
       ),
     );
   }

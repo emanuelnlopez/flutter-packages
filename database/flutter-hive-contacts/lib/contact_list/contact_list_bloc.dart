@@ -20,6 +20,12 @@ class ContactListBloc extends Bloc {
     getContacts();
   }
 
+  Future<void> editContact(Contact newContact, int index) async {
+    await _contactListBox.deleteAt(index);
+    await _contactListBox.put(index, newContact);
+    getContacts();
+  }
+
   Future<void> getContacts() async {
     List<Contact> contactList = [];
     for (var i = 0; i < _contactListBox.length; i++) {
