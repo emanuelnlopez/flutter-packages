@@ -1,0 +1,21 @@
+name: flutter_hive_contacts
+description: Example application using the Hive DB libary
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  hive: ^1.4.4
+  hive_flutter: ^0.3.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  build_runner:
+  hive_generator: ^0.7.2+1
+
+flutter:
+        uses-material-design: true
