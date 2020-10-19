@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_flavors/counter.dart';
 import 'package:flutter_provider_flavors/pages/home_page.dart';
+import 'package:provider/provider.dart';
 
 class App extends StatelessWidget {
   @override
@@ -10,7 +12,10 @@ class App extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomePage(),
+      home: ChangeNotifierProvider<Counter>(
+        create: (context) => Counter(),
+        child: HomePage(),
+      ),
     );
   }
 }

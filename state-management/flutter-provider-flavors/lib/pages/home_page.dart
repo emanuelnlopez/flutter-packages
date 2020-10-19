@@ -1,23 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_flavors/counter.dart';
 import 'package:flutter_provider_flavors/flavor.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final counter = Provider.of<Counter>(context);
     final flavor = Provider.of<Flavor>(context);
     return Scaffold(
       appBar: AppBar(
@@ -31,14 +20,14 @@ class _HomePageState extends State<HomePage> {
               'You have pushed the button this many times:',
             ),
             Text(
-              '$_counter',
+              '${counter.value}',
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: counter.increment,
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),
