@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final counter = Provider.of<Counter>(context);
+    final counter = Provider.of<Counter>(context, listen: false);
     final flavor = Provider.of<Flavor>(context);
     return Scaffold(
       appBar: AppBar(
@@ -19,9 +19,11 @@ class HomePage extends StatelessWidget {
             Text(
               'You have pushed the button this many times:',
             ),
-            Text(
-              '${counter.value}',
-              style: Theme.of(context).textTheme.headline4,
+            Consumer<Counter>(
+              builder: (_, value, __) => Text(
+                '${value.value}',
+                style: Theme.of(context).textTheme.headline4,
+              ),
             ),
           ],
         ),
